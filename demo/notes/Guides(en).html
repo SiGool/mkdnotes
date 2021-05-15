@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<title>Guides(en)</title>
+<link rel="shortcut icon" href="../favicon.ico">
+
+<xmp theme="simplex" style="display:none;">
+# What's mkdnotes？
+> Mkdnotes is a local notebook that provides features such as notes browsing and searching. All you need is to focus on writing your notes.Of course you can submit your code to any repositorys that support the deployment of static projects so that your notes can be seen anywhere.
+
+# How it works？
+> The core is the mkdnotes generator which is located in the root directory. You need to use it to create a note template file in the notes directory (Don't leave directory: /notes). This template is similar to Strapdown's.Then you can write something to your template file using the markdown syntax, and finally, like Git, you need to submit your update. Once submitted, the generator will regenerate the data file (/assets/data.js)  based on your current note directory structure, and data.js file will be use for home page.
+
+# Getting started
+
+- You don't need to install, just copy the demo folder under the project.
+
+		The directory structure is as follows, do not change them.
+
+		/ 
+			index.html       // Home Page, quick find and view your notes
+
+			favicon.ico      // mkdnotes logo
+
+			mkdnotes.ini     // configuration file
+
+			mkdnotes.exe     // the generator(Windows version), if is not this platform, you can delete it.
+
+			mkdnotes_l       // the generator(Linux version), if is not this platform, you can delete it.
+
+			mkdnotes_m_      // the generator(Mac version), if is not this platform, you can delete it.
+
+			assets/          // Data.js is stored in this directory, and also some core files, so don't change them.
+
+			notes/           // Your note directory
+
+- Use the generator to create a primitive template file (* current working directory must be in the notes directory (/notes))
+
+	```
+	..\mkdnotes --init hello   // Created a note template file called hello.html
+
+	```
+
+- Create a template file with your own configuration
+
+	*Here is the items in the configuration file（/mkdnotes.ini）.*：  
+
+	**title**     －－－    The content of the HTML title tag（Defaults: My Markdown Notes）
+
+	**link_icon** －－－    Whether to display the icon which is located in the root directory，Yes or No（Defaults: Yes）
+
+	**theme**     －－－    The name of Bootstrap themes, all available themes are located in /assets/strapdown/themes, the name needs to be remove the .min.css suffix and be converted to lowercase (defaults: simplex)
+
+	```
+		..\mkdnotes --init -o hello  // 用自己的配置项创建一个笔记模板
+
+	```
+
+- Generating the data file（/assets/data.js）
+
+	*once your note directory structure changes: rename files, add new files or delete files, like Git, you need to use command to regenerate the new data file.*
+	
+	```
+	..\mkdnotes --commit
+
+	// Now open the homepage（/index.html）, you can see all your notes in the navigation bar on the left.
+
+	```
+
+- Now make the cover of the homepage iframe
+
+	*You can modify the /notes/welcome.html directly. This file needs to be located in the notes directory. If the file name is not "welcome.html", you need to modify the homepage core file (/assets/js/core.js) *
+
+	```
+	// core.js： near line 60, modify the value of cover
+
+	var cover = 'welcome.html';  
+	if (rel === './notes' && n === cover)
+		continue;
+
+	```
+
+- alter the left navigation bar style
+
+	*you also need to modify the homepage core file (/assets/js/core.js)*
+
+	```
+	// core.js： near line 80, Optional theme： theme-dark，theme-dark，theme-white， theme-black
+
+	// counters（Whether to display the number of notes）, detail or develop, see: https://github.com/FrDH/jQuery.mmenu
+
+	extensions: [ 'theme-dark' ], // theme-light(Default)|theme-dark|theme-white|theme-black
+	setSelected: true,
+	/*
+		counters: true,
+	*/
+
+	```
+
+# Tips
+
+> When creating a template file, the working directory must be in the notes directory. It is recommended to add the generator's directory to the global environment.
+
+> Generator encountered errors, doesn't work? compile it (any compiler that supports C89)
+
+```
+	gcc -o mkdnotes mkdnotes.c
+
+```
+
+
+
+# Have any questions or want to contribute?
+
+> MIT License
+
+> Fork me on [GitHub](https://github.com/SiGool/mkdnotes) or Submit issues.
+
+# Credits
+
+- [cJSON](https://github.com/DaveGamble/cJSON): Ultralightweight JSON parser in ANSI C
+- [inih](https://github.com/benhoyt/inih): Simple .INI file parser in C, good for embedded systems
+- [whereami](https://github.com/gpakosz/whereami): Locate the current executable and the current module/library on the file system
+- [jQuery.mmenu](https://github.com/FrDH/jQuery.mmenu): The best jQuery plugin for app look-alike on- and off-canvas menus with sliding submenus for your website and webapp.
+- [strapdown](https://github.com/arturadib/strapdown): Instant and elegant Markdown documents in the browser
+- Icons from [IcoMoon app](https://icomoon.io/app)
+
+</xmp>
+
+<script src="../assets/strapdown/strapdown.js"></script>
+</html>

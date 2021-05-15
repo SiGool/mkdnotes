@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<title>Guides</title>
+<link rel="shortcut icon" href="../favicon.ico">
+
+<xmp theme="simplex" style="display:none;">
+# mkdnotes是什么？
+> mkdnotes是一个本地的笔记本，它提供了笔记浏览搜索等功能，你需要的只是认真的写你的笔记。当然你可以提交你代码到支持部署静态项目的代码仓库，这样你的笔记就可以随处可见了。
+
+# 它是如何工作的？
+> 最核心的就是根目录下的mkdnotes生成器, 你需要用它在笔记目录下（/notes）通过命令创建一个笔记模板，这个模板和[Strapdown](https://strapdownjs.com/)的类似。
+> 然后你可以往你的模板写入markdown语法的笔记，最后像Git一样用命令提交更新。
+> 提交后，该生成器会根据你当前的笔记目录结构重新生成一个数据文件（/assets/data.js）用于首页。
+
+# 快速入门
+
+- 你无需安装，直接复制该项目下的demo文件夹即可
+
+		目录结构如下，不应随意更改它
+
+		/ 
+			index.html       // 首页，快速查找和切换查看你的笔记
+
+			favicon.ico      // mkdnotes logo
+
+			mkdnotes.ini     // 笔记模板配置文件
+
+			mkdnotes.exe     // Windows版本生成器，如果不是该平台可以删除
+
+			mkdnotes_l       // Linux版本生成器，如果不是该平台可以删除
+
+			mkdnotes_m_      // Mac 版本生成器，如果不是该平台可以删除
+
+			assets/          // data.js存放目录和笔记核心文件，不应随意更改
+
+			notes/           // 你的笔记目录
+
+- 利用生成器创建一个最原始的笔记模板（* **生成笔记模板时工作区域需位于笔记目录（/notes）内**）
+
+	```
+	..\mkdnotes --init hello   // 创建了一个名为 hello.html的笔记模板文件
+
+	```
+
+- 使用自己的配置创建笔记模板
+
+	*配置文件（/mkdnotes.ini）各项*：  
+
+	**title**     －－－    生成的模板文件的HTML title内容（默认值: My Markdown Notes）
+
+	**link_icon** －－－    是否显示根目录下的icon，Yes or No（默认值: Yes）
+
+	**theme**     －－－    当前笔记的Bootwatch主题名，所有可用主题位于 /assets/strapdown/themes，主题名需去除.min.css后缀并转化为小写（默认值: simplex）
+
+	```
+		..\mkdnotes --init -o hello  // 用自己的配置项创建一个笔记模板
+
+	```
+
+- 生成数据文件（/assets/data.js）
+
+	*只要你的笔记目录结构有变化： 重命令文件，新增文件还是删除文件，你就需要像Git一样使用命令重新生成新的数据文件*
+	
+	```
+	..\mkdnotes --commit
+
+	// 现在打开你的首页，左边的导航条已经可以看到你所有的笔记了
+
+	```
+
+- 现在制作首页（/index.html）右侧的Cover
+
+	*你可以直接修改 /notes/welcome.html 内容，文件需位于笔记根目录，如果文件名不为welcome.html，你需要修改首页加载的核心文件（/assets/js/core.js）代码*
+
+	```
+	// core.js： 第 60行左右，请按实际修改cover的值
+
+	var cover = 'welcome.html';  
+	if (rel === './notes' && n === cover)
+		continue;
+
+	```
+
+- 修改左侧导航条
+
+	*左侧导航条配置项同样需修改/assets/js/core.js代码*
+
+	```
+	// core.js： 第80行左右，可设置的主题： theme-dark，theme-dark，theme-white， theme-black
+
+	// counters是否显示笔记数，详细或开发参照: https://github.com/FrDH/jQuery.mmenu
+
+	extensions: [ 'theme-dark' ], // theme-light(Default)|theme-dark|theme-white|theme-black
+	setSelected: true,
+	/*
+		counters: true,
+	*/
+
+	```
+
+# Tips
+
+> 创建模板文件时工作区域需位于笔记目录内，建议将生成器的目录添加到全局环境。
+
+> 生成器有错，无法工作？编译自己的版本（任何支持C89的编译器）
+
+```
+	gcc -o mkdnotes mkdnotes.c
+
+```
+
+
+
+# 有任何疑问，需要贡献？
+
+> MIT License
+
+> Fork me on [GitHub](https://github.com/SiGool/mkdnotes) or Submit issues.
+
+# Credits
+
+- [cJSON](https://github.com/DaveGamble/cJSON): Ultralightweight JSON parser in ANSI C
+- [inih](https://github.com/benhoyt/inih): Simple .INI file parser in C, good for embedded systems
+- [whereami](https://github.com/gpakosz/whereami): Locate the current executable and the current module/library on the file system
+- [jQuery.mmenu](https://github.com/FrDH/jQuery.mmenu): The best jQuery plugin for app look-alike on- and off-canvas menus with sliding submenus for your website and webapp.
+- [strapdown](https://github.com/arturadib/strapdown): Instant and elegant Markdown documents in the browser
+- Icons from [IcoMoon app](https://icomoon.io/app)
+
+</xmp>
+
+<script src="../assets/strapdown/strapdown.js"></script>
+</html>
